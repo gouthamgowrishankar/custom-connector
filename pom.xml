@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>8521b161-742f-46d4-a28e-2360f0b32415</groupId>
+    <artifactId>status</artifactId>
+    <packaging>mule-extension</packaging>
+    <version>1.0.0</version>
+
+    <name>status_check</name>
+    <description>A Mule extension done with pure Mule DSL that depends in the runtime operations (set-payload, set-variable, etc.)</description>
+
+
+    <properties>
+        <mule.version>4.4.0</mule.version>
+        <mule.maven.plugin.version>3.8.2</mule.maven.plugin.version>
+        <mule.extensions.maven.plugin.version>1.4.0</mule.extensions.maven.plugin.version>
+
+        <!-- <munit.version>2.1.0</munit.version>
+        <munit.extensions.maven.plugin.version>1.0.0-BETA</munit.extensions.maven.plugin.version>
+        <munit.input.directory>src/test/munit</munit.input.directory>
+        <munit.output.directory>${basedir}/target/test-mule/munit</munit.output.directory>
+
+        <maven.resources.version>3.0.2</maven.resources.version> -->
+    </properties>
+
+
+    <dependencies>
+        <!--Needed to discover the 'xml-based' XmlExtensionLoader for smart connectors-->
+        <dependency>
+			<groupId>org.mule.connectors</groupId>
+			<artifactId>mule-http-connector</artifactId>
+			<classifier>mule-plugin</classifier>
+			<version>1.6.0</version>
+		</dependency>
+        <dependency>
+            <groupId>org.mule.runtime</groupId>
+            <artifactId>mule-module-extensions-xml-support</artifactId>
+            <version>${mule.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <!--MUnit Dependencies-->
+        <!-- <dependency>
+            <groupId>com.mulesoft.munit</groupId>
+            <artifactId>munit-runner</artifactId>
+            <version>${munit.version}</version>
+            <classifier>mule-plugin</classifier>
+            <scope>test</scope>
+        </dependency> -->
+    </dependencies>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+            	 <!--<plugin>
+                <groupId>org.mule.tools.maven</groupId>
+                <artifactId>mule-maven-plugin</artifactId>
+                <version>3.7.1</version>
+                <extensions>true</extensions>
+            </plugin> -->
+            <plugin>
+				<groupId>org.mule.tools.maven</groupId>
+				<artifactId>mule-maven-plugin</artifactId>
+				<version>${mule.maven.plugin.version}</version>
+				<extensions>true</extensions>
+				<configuration>
+					<cloudHubDeployment>
+				      <uri>https://anypoint.mulesoft.com</uri>
+				      <muleVersion>4.4.0</muleVersion>
+				      <username>gowrimcd</username>
+				      <password>Goutham@7498</password>
+				      <applicationName>deployment</applicationName>
+				      <environment>Sandbox</environment>
+				      <region>us-east-2</region>
+				      <workers>1</workers>
+				      <workerType>MICRO</workerType>
+				      <properties>
+				        <key>value</key>
+				      </properties>
+				    </cloudHubDeployment>
+				  </configuration>
+			</plugin>
+                <!-- <plugin>
+                    <groupId>com.mulesoft.munit</groupId>
+                    <artifactId>munit-extensions-maven-plugin</artifactId>
+                    <version>${munit.extensions.maven.plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <id>munit-extension-test</id>
+                            <phase>integration-test</phase>
+                            <goals>
+                                <goal>test</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <dynamicPorts>
+                            <dynamicPort>a.dynamic.port</dynamicPort>
+                        </dynamicPorts>
+                        <environmentVariables>
+                            <MY_ENV>envVar</MY_ENV>
+                        </environmentVariables>
+                    </configuration>
+                </plugin> -->
+                <!--<plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>${maven.resources.version}</version>
+                    <executions>
+                        <execution>
+                            <id>copy-munit-resources</id>
+                            <phase>process-test-resources</phase>
+                            <goals>
+                                <goal>copy-resources</goal>
+                            </goals>
+                            <configuration>
+                                <outputDirectory>${munit.output.directory}</outputDirectory>
+                                <resources>
+                                    <resource>
+                                        <directory>${munit.input.directory}</directory>
+                                        <filtering>true</filtering>
+                                    </resource>
+                                </resources>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin> -->
+            </plugins>
+        </pluginManagement>
+
+        <plugins>
+            <plugin>
+                <groupId>org.mule.runtime.plugins</groupId>
+                <artifactId>mule-extensions-maven-plugin</artifactId>
+                <version>${mule.extensions.maven.plugin.version}</version>
+                <extensions>true</extensions>
+            </plugin>
+            <!-- <plugin>
+                <groupId>com.mulesoft.munit</groupId>
+                <artifactId>munit-extensions-maven-plugin</artifactId>
+            </plugin> -->
+        </plugins>
+    </build>
+    <repositories>
+		<repository>
+			<id>anypoint-exchange-v2</id>
+			<name>Anypoint Exchange</name>
+			<url>https://maven.anypoint.mulesoft.com/api/v2/maven</url>
+			<layout>default</layout>
+		</repository>
+		<repository>
+			<id>anypoint-exchange-v3</id>
+			<name>Anypoint Exchange V3</name>
+			<url>https://maven.anypoint.mulesoft.com/api/v3/maven</url>
+			<layout>default</layout>
+		</repository>
+		<repository>
+			<id>mulesoft-releases</id>
+			<name>MuleSoft Releases Repository</name>
+			<url>https://repository.mulesoft.org/releases/</url>
+			<layout>default</layout>
+		</repository>
+	</repositories>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>mulesoft-releases</id>
+			<name>MuleSoft Releases Repository</name>
+			<layout>default</layout>
+			<url>https://repository.mulesoft.org/releases/</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</pluginRepository>
+	</pluginRepositories>
+	<distributionManagement>
+        <repository>
+            <id>repo</id>
+            <name>Anypoint Exchange</name>
+            <url>https://maven.anypoint.mulesoft.com/api/v2/organizations/8521b161-742f-46d4-a28e-2360f0b32415/maven
+            </url>
+            <layout>default</layout>
+        </repository>
+    </distributionManagement>
+
+</project>

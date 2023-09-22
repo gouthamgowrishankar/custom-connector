@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module name="status"
+        prefix="status"
+        doc:description="This module relies in runtime provided components"
+
+        xmlns="http://www.mulesoft.org/schema/mule/module"
+        xmlns:http="http://www.mulesoft.org/schema/mule/http"
+        xmlns:mule="http://www.mulesoft.org/schema/mule/core"
+        xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+        xmlns:tns="http://www.mulesoft.org/schema/mule/status"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+        	http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+           http://www.mulesoft.org/schema/mule/module http://www.mulesoft.org/schema/mule/module/current/mule-module.xsd
+           http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+           http://www.mulesoft.org/schema/mule/status http://www.mulesoft.org/schema/mule/status/current/mule-status.xsd">
+    
+    <property name="host" type="string"/>
+    <property name="port" type="string"/>
+    <property name="protocol" type="string"/>
+    <http:request-config name="status-check" basePath="#[vars.basepath]">
+		<http:request-connection host="#[vars.host]" port="#[vars.port]" protocol="#[vars.protocol]" />
+	</http:request-config>
+
+    <operation name="status_check" doc:description="checks the status of target syatem">
+    	<parameters>
+    		<parameter name="path" type="string"/>
+    	</parameters>
+    
+        <body>
+            <http:request 
+            	method="GET" 
+            	config-ref="status-check" 
+            	path="live">
+			</http:request>
+        </body>
+        <output type="string" doc:description="status displays"/>
+    </operation>
+
+   
+
+ </module>
